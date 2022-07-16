@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>購入食材の選択 | 株式会社ニーズ＆フーズ</title>
+    <link rel="stylesheet" href="../satic/css/style.css">
+</head>
+
+<body>
+    <h1>購入食材の選択</h1>
+    <div>
+        <p>購入者 : <span>A店</span></p>
+    </div>
+    <h2>食材一覧</h2>
+    <div>
+        <p>今の時期に流通している主な食材を表示しています。<br>表記のない食材についてはこちらにてご注文ください。</p><br>
+        <p>追加するにはクリックをしてください。</p>
+    </div>
+    <table>
+        <tr>
+            <th>食材名</th>
+            <th>単位</th>
+            <th>値段(円)</th>
+        </tr>
+        <!-- TODO tymeleaf繰り返し構文 -->
+        <tr class="foodListItem" data-id="0">
+            <td>芽キャベツ</td>
+            <td>1kgあたり</td>
+            <td>700</td>
+        </tr>
+        <tr class="foodListItem" data-id="1">
+            <td>切みつば</td>
+            <td>1kgあたり</td>
+            <td>2000</td>
+        </tr>
+        <tr class="foodListItem" data-id="2">
+            <td>あさつき</td>
+            <td>1kgあたり</td>
+            <td>700</td>
+        </tr>
+        <tr class="foodListItem" data-id="3">
+            <td>せり</td>
+            <td>1kgあたり</td>
+            <td>800</td>
+        </tr>
+        <tr class="foodListItem" data-id="4">
+            <td>菜の花</td>
+            <td>1kgあたり</td>
+            <td>650</td>
+        </tr>
+    </table>
+    <!-- TODO デフォルト、選択していませんの表示 -->
+    <h2>選択した食材</h2>
+    <table id="foodList">
+        <tr>
+            <th>食材名</th>
+            <th>単位</th>
+            <th>値段(円)</th>
+            <th>購入個数</th>
+            <th>購入金額(円)</th>
+        </tr>
+        <!-- TODO 繰り返し構文 -->
+        <!-- TODO バリデーション -->
+    </table>
+    <h2>合計:<span id="grandTotal">0</span>円(税込み)</h2>
+    <ul>
+        <li><a href="start.html">戻る</a></li>
+        <li><a href="confirm.html">進む</a></li>
+    </ul>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript">
+        var grandTotal;
+        var selectedItems = [];
+
+
+        // <!--
+        $(function () {
+            var id;
+            var name;
+            var price;
+
+            $(".foodListItem").click(function () {
+                id = $(this).data('id');
+
+                if (!($('#selectedItem' + id).length)) {
+                    // TODO Controllerなどの処理にする(DBから取得など)
+                    switch (id) {
+                        case 0:
+                            name = "芽キャベツ";
+                            price = 700;
+                            break;
+                        case 1:
+                            name = "切みつば";
+                            price = 2000;
+                            break;
+                        case 2:
+                            name = "あさつき";
+                            price = 700;
+                            break;
+                        case 3:
+                            name = "せり";
+                            price = 800;
+                            break;
+                        case 4:
+                            name = "菜の花";
+                            price = 650;
+                            break;
+                    }
+                    $("#foodList").append("\<tr class=\"selectedItem\" id=\"selectedItem" + id + "\"\>" +
+                        "\<td\>" + name + "\<\/td\>" +
+                        "\<td\>1kgあたり\<\/td\>" +
+                        "\<td\>" + price + "\<\/td\>" +
+                        "\<td\>"+
+                            "\<select id=\"numPurchases" + id + "\" onchange=\"calc(" + price + "," + id + ")\" placeholder='個数'\>"+
+                                "\<option\>0\<\/option\>"+
+                                "\<option\>1\<\/option\>"+
+                                "\<option\>2\<\/option\>"+
+                                "\<option\>3\<\/option\>"+
+                                "\<option\>4\<\/option\>"+
+                                "\<option\>5\<\/option\>"+
+                                "\<option\>6\<\/option\>"+
+                                "\<option\>7\<\/option\>"+
+                                "\<option\>8\<\/option\>"+
+                                "\<option\>9\<\/option\>"+
+                                "\<option\>10\<\/option\>"+
+                                "\<option\>11\<\/option\>"+
+                                "\<option\>12\<\/option\>"+
+                                "\<option\>13\<\/option\>"+
+                                "\<option\>14\<\/option\>"+
+                                "\<option\>15\<\/option\>"+
+                            "\<\/select\>"+
+                        "\<\/td\>" +
+                        "\<td id=\"total" + id + "\" class=\"total\" \>0\<\/td\>" +
+                        "\<td\>\<button onclick=\"removeItem(this," + id + ")\" class=\"deleteButton\"\>削除する\<\/button\>\<\/td\>" +
+                        "\<\/tr\>");
+                }
+            });
+        });
+
+        function removeItem(button, id) {
+            let parent = button.parentNode.parentNode;
+            parent.remove();
+
+            var grandTotal = 0;
+            $(".total").each(function (i, element) {
+                var text = Number($(element).text());
+                grandTotal += text;
+            });
+            grandTotal = Math.round(grandTotal * 1.08);
+            $("#grandTotal").text(grandTotal);
+        }
+
+        function calc(price, id) {
+            let amount = $("#numPurchases" + id).val();
+            let total = Math.ceil(price * amount);
+
+            $("#total" + id).text(total);
+
+            var grandTotal = 0;
+            $(".total").each(function (i, element) {
+                var text = Number($(element).text());
+                grandTotal += text;
+            });
+            grandTotal = Math.round(grandTotal * 1.08);
+            $("#grandTotal").text(grandTotal);
+        }
+    //-->
+
+    </script>
+</body>
+
+</html>
