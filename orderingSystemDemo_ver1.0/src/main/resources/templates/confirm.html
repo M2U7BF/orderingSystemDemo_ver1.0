@@ -19,25 +19,18 @@
             <th>購入金額(円)</th>
         </tr>
         <!-- TODO 繰り返し構文 -->
-        <tr>
-            <td>小松菜</td>
-            <td>1kgあたり</td>
-            <td>700</td>
-            <!-- TODO バリデーション -->
-            <td>2</td>
-            <td>1400</td>
-        </tr>
-        <tr>
-            <td>ポンカン</td>
-            <td>1kgあたり</td>
-            <td>1200</td>
-            <!-- TODO バリデーション -->
-            <td>2</td>
-            <td>2400</td>
-        </tr>
-    </table>
+        <th:block th:each="fd : ${selectedFoods}">
+            <tr class="foodListItem" data-id="0" th:object="${fd}">
+                <td th:text="*{name}">食材名</td>
+                <td th:text="*{unit}">取り扱い単位</td>
+                <td th:text="*{price}">値段</td>
+                <td th:text="*{numPurchased}">購入個数</td>
+                <td th:text="*{total}">合計金額(円)</td>
+            </tr>
+        </th:block>
     <div>
-        <p>合計 <span>3992円</span>(税込み)</p>
+        <!--  -->
+        <p>合計 <span th:text="${confirm.total}">0</span>円(税込み)</p>
         <p></p>
     </div>
     <ul>

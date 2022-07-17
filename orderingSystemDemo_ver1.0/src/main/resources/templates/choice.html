@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="UTF-8">
     <title>購入食材の選択 | 株式会社ニーズ＆フーズ</title>
-    <link rel="stylesheet" href="../satic/css/style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
@@ -17,6 +16,21 @@
         <p>今の時期に流通している主な食材を表示しています。<br>表記のない食材についてはこちらにてご注文ください。</p><br>
         <p>追加するにはクリックをしてください。</p>
     </div>
+    <table>
+        <tr>
+            <th>食材名</th>
+            <th>単位</th>
+            <th>値段(円)</th>
+        </tr>
+        <!-- TODO 今の季節に取り扱う食材をリストで入手 -->
+        <th:block th:each="veg, stat : ${vegetables}">
+            <tr class="foodListItem" data-id="0" th:data-id="${stat.index}" th:object="${veg}">
+                <td th:text="*{name}">食材名</td>
+                <td th:text="*{salesUnit}">取り扱い単位</td>
+                <td th:text="*{price}">値段</td>
+            </tr>
+        </th:block>
+    </table>
     <table>
         <tr>
             <th>食材名</th>
@@ -60,7 +74,6 @@
             <th>購入個数</th>
             <th>購入金額(円)</th>
         </tr>
-        <!-- TODO 繰り返し構文 -->
         <!-- TODO バリデーション -->
     </table>
     <h2>合計:<span id="grandTotal">0</span>円(税込み)</h2>
@@ -73,7 +86,6 @@
     <script type="text/javascript">
         var grandTotal;
         var selectedItems = [];
-
 
         // <!--
         $(function () {
