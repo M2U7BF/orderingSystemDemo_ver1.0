@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<title>ご購入の確認 | 株式会社ニーズ＆フーズ</title>
-<link rel="stylesheet" href="css/commonStyle.css">
+    <meta charset="UTF-8">
+    <title>ご購入の確認 | 株式会社ニーズ＆フーズ</title>
 </head>
+
 <body>
     <h1>購入情報の確認</h1>
     <div>
         <p>購入者 : <span>A店</span></p>
     </div>
+    <form th:action="@{confirmed}" method="post">
     <table>
         <tr>
             <th>食材名</th>
@@ -18,24 +20,26 @@
             <th>購入個数</th>
             <th>購入金額(円)</th>
         </tr>
-        <!-- TODO 繰り返し構文 -->
-        <th:block th:each="fd : ${selectedFoods}">
-            <tr class="foodListItem" data-id="0" th:object="${fd}">
-                <td th:text="*{name}">食材名</td>
-                <td th:text="*{unit}">取り扱い単位</td>
-                <td th:text="*{price}">値段</td>
-                <td th:text="*{numPurchased}">購入個数</td>
-                <td th:text="*{total}">合計金額(円)</td>
-            </tr>
-        </th:block>
+        <tr th:each="name ,iter : ${form.name}">
+            <td th:text="${form.name[iter.index]}">商品名</td>
+            <td th:text="${form.salesUnit[iter.index]}">単位</td>
+            <td th:text="${form.price[iter.index]}">値段</td>
+            <td th:text="${form.numPurchase[iter.index]}">購入数</td>
+            <td th:text="${form.total[iter.index]}">購入金額</td>
+            <input type="hidden" name="name" th:value="${form.name[iter.index]}">
+            <input type="hidden" name="salesUnit" th:value="${form.salesUnit[iter.index]}">
+            <input type="hidden" name="price" th:value="${form.price[iter.index]}">
+            <input type="hidden" name="numPurchase" th:value="${form.numPurchase[iter.index]}">
+            <input type="hidden" name="total" th:value="${form.total[iter.index]}">
+        </tr>
+    </table>
     <div>
-        <!--  -->
-        <p>合計 <span th:text="${confirm.total}">0</span>円(税込み)</p>
-        <p></p>
+        <p>合計<span th:text="${form.grandTotal}">0</span>円(税込み)</p>
+        <input type="hidden" name="grandTotal" th:value="${form.grandTotal}">
     </div>
-    <ul>
-        <li><a href="choice.html">購入情報を修正する</a></li>
-        <li><a href="confirmed.html">購入を確定する</a></li>
-    </ul>
+    <input type="submit" value="購入を確定する">
+</form>
+        <a href="choice.html" th:href="@{choice}">購入情報を修正する</a>
 </body>
+
 </html>

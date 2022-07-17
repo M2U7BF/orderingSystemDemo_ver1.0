@@ -6,16 +6,17 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.ordering.entity.Fruits;
 import com.example.ordering.entity.User;
 import com.example.ordering.entity.Vegetables;
+import com.example.ordering.form.Form;
 
 @Controller
 public class homeController {
 	@GetMapping("service")
 	public String serviceView() {
-		// 戻り値は「ビュー名」を返す
 		return "service";
 	}
 	
@@ -71,21 +72,19 @@ public class homeController {
 
 		model.addAttribute("fruits",fruits);
 		
-		User user1 = new User("B店");
+		User user1 = new User("A店");
 		model.addAttribute("user",user1);
 		
 		return "choice";
 	}
 	
-	@GetMapping("confirm")
-	public String confirmView() {
-		// 戻り値は「ビュー名」を返す
+	@PostMapping("confirm")
+	public String confirmView(Form f) {
 		return "confirm";
 	}
 	
-	@GetMapping("confirmed")
-	public String confirmedView() {
-		// 戻り値は「ビュー名」を返す
+	@PostMapping("confirmed")
+	public String confirmedView(Form f) {
 		return "confirmed";
 	}
 }

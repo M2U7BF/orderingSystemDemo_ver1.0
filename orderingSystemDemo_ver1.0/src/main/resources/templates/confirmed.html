@@ -11,12 +11,28 @@
     <div>
         <h2>購入情報</h2>
         <p>購入者 : <span>A店</span></p>
-        <p>小松菜 2kg 1400円</p>
-        <p>ポンカン 2kg 2400円</p>
-        <p>合計 : <span>3992円</span></p>
+        <table>
+            <tr>
+                <th>食材名</th>
+                <th>単位</th>
+                <th>値段(円)</th>
+                <th>購入個数</th>
+                <th>購入金額(円)</th>
+            </tr>
+            <tr th:each="name ,iter : ${form.name}">
+                <td th:text="${form.name[iter.index]}">商品名</td>
+                <td th:text="${form.salesUnit[iter.index]}">単位</td>
+                <td th:text="${form.price[iter.index]}">値段</td>
+                <td th:text="${form.numPurchase[iter.index]}">購入数</td>
+                <td th:text="${form.total[iter.index]}">購入金額</td>
+            </tr>
+        </table>
+        <div>
+            <p>合計<span th:text="${form.grandTotal}">0</span>円(税込み)</p>
+        </div>
     </div>
     
-    <p><a href="service.html">取り扱い食材一覧へ</a></p>
+    <p><a href="service.html" th:href="@{service}">取り扱い食材一覧へ</a></p>
     <p>キャンセルなどはこちら</p>
 </body>
 </html>
