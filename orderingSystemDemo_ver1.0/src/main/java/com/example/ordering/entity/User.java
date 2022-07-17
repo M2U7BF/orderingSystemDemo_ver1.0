@@ -5,9 +5,6 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class Food {
-	private Integer id;
+public class User {
 	private String name;
-	private String salesUnit;
-	private Integer price;
 }
