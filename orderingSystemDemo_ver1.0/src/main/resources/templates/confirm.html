@@ -8,6 +8,7 @@
 
 <body>
     <h1>購入情報の確認</h1>
+    <h1 th:text="${itemData}"></h1>
     <div>
         <p>購入者 : <span>A店</span></p>
     </div>
@@ -20,22 +21,22 @@
             <th>購入個数</th>
             <th>購入金額(円)</th>
         </tr>
-        <tr th:each="name ,iter : ${form.name}">
-            <td th:text="${form.name[iter.index]}">商品名</td>
-            <td th:text="${form.salesUnit[iter.index]}">単位</td>
-            <td th:text="${form.price[iter.index]}">値段</td>
-            <td th:text="${form.numPurchase[iter.index]}">購入数</td>
-            <td th:text="${form.total[iter.index]}">購入金額</td>
-            <input type="hidden" name="name" th:value="${form.name[iter.index]}">
-            <input type="hidden" name="salesUnit" th:value="${form.salesUnit[iter.index]}">
-            <input type="hidden" name="price" th:value="${form.price[iter.index]}">
-            <input type="hidden" name="numPurchase" th:value="${form.numPurchase[iter.index]}">
-            <input type="hidden" name="total" th:value="${form.total[iter.index]}">
+        <tr th:each="name ,iter : ${itemData.name}">
+            <td th:text="${itemData.name[iter.index]}">商品名</td>
+            <td th:text="${itemData.salesUnit[iter.index]}">単位</td>
+            <td th:text="${itemData.price[iter.index]}">値段</td>
+            <td th:text="${itemData.numPurchase[iter.index]}">購入数</td>
+            <td th:text="${itemData.total[iter.index]}">購入金額</td>
+            <input type="hidden" name="name" th:value="${itemData.name[iter.index]}">
+            <input type="hidden" name="salesUnit" th:value="${itemData.salesUnit[iter.index]}">
+            <input type="hidden" name="price" th:value="${itemData.price[iter.index]}">
+            <input type="hidden" name="numPurchase" th:value="${itemData.numPurchase[iter.index]}">
+            <input type="hidden" name="total" th:value="${itemData.total[iter.index]}">
         </tr>
     </table>
     <div>
-        <p>合計<span th:text="${form.grandTotal}">0</span>円(税込み)</p>
-        <input type="hidden" name="grandTotal" th:value="${form.grandTotal}">
+        <p>合計<span th:text="${itemData.grandTotal}">0</span>円(税込み)</p>
+        <input type="hidden" name="grandTotal" th:value="${itemData.grandTotal}">
     </div>
     <input type="submit" value="購入を確定する">
 </form>

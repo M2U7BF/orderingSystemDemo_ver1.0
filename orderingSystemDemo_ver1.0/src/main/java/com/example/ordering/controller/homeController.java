@@ -6,7 +6,9 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.example.ordering.entity.Fruits;
 import com.example.ordering.entity.User;
@@ -14,14 +16,22 @@ import com.example.ordering.entity.Vegetables;
 import com.example.ordering.form.Form;
 
 @Controller
+@SessionAttributes(value = "itemData")
 public class homeController {
+	
+	@ModelAttribute(value = "itemData")
+	public Form setUpForm() {
+		System.out.println("itemData created");
+		return new Form();
+	}
+	
 	@GetMapping("service")
 	public String serviceView() {
 		return "service";
 	}
 	
 	@GetMapping("choice")
-	public String choiceView(Model model) {
+	public String choiceView(@ModelAttribute(value = "itemData")Form f, Model model) {
 		Vegetables veg1 = new Vegetables(11, "芽キャベツ1", "1kg", 700);
 		Vegetables veg2 = new Vegetables(12, "芽キャベツ2", "1束", 80);
 		Vegetables veg3 = new Vegetables(13, "芽キャベツ3", "1個", 30);
@@ -75,16 +85,20 @@ public class homeController {
 		User user1 = new User("A店");
 		model.addAttribute("user",user1);
 		
+		model.addAttribute(f);
+		
 		return "choice";
 	}
 	
 	@PostMapping("confirm")
-	public String confirmView(Form f) {
+	public String confirmView(@ModelAttribute(value = "itemData")Form f, Model model) {
+		model.addAttribute(f);
 		return "confirm";
 	}
 	
 	@PostMapping("confirmed")
-	public String confirmedView(Form f) {
+	public String confirmedView(@ModelAttribute(value = "itemData")Form f, Model model) {
+		model.addAttribute(f);
 		return "confirmed";
 	}
 }
