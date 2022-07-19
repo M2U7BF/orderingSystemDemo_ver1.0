@@ -37,6 +37,7 @@ public class homeController {
 //		return "redirect:choice?initialized";
 //	}
 	
+	
 	@GetMapping("choice")
 	public String choice(@ModelAttribute(value = "itemData")Form f, Model model) {
 		Vegetables veg1 = new Vegetables(11, "芽キャベツ1", "1kg", 700);

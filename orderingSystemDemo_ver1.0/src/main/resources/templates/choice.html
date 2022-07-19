@@ -5,6 +5,11 @@
     <meta charset="UTF-8">
     <title>購入食材の選択 | 株式会社ニーズ＆フーズ</title>
     <link rel="stylesheet" href="css/style.css">
+    <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+    <script src="js/ordering.choice.js"></script>
 </head>
 
 <body>
@@ -27,8 +32,8 @@
         </tr>
         <!-- TODO 今の季節に取り扱う食材をリストで入手 -->
         <th:block th:each="veg : ${vegetables}">
-            <tr class="foodListItem" data-id="0" th:data-id="*{id}" th:object="${veg}">
-                <td class="name" th:text="*{id}">番号</td>
+            <tr class="foodListItem" data-id="0" th:data-id="*{id}" th:object="${veg}" onclick="showSelectedItem(this)">
+                <td class="id" th:text="*{id}">番号</td>
                 <td class="name" th:text="*{name}">食材名</td>
                 <td class="salesUnit" th:text="*{salesUnit}">取り扱い単位</td>
                 <td class="price" th:text="*{price}">値段</td>
@@ -44,8 +49,8 @@
             <th>値段(円)</th>
         </tr>
         <th:block th:each="frt : ${fruits}">
-            <tr class="foodListItem" data-id="0" th:data-id="*{id}" th:object="${frt}">
-                <td class="name" th:text="*{id}">番号</td>
+            <tr class="foodListItem" data-id="0" th:data-id="*{id}" th:object="${frt}" onclick="showSelectedItem(this)">
+                <td class="id" th:text="*{id}">番号</td>
                 <td class="name" th:text="*{name}">食材名</td>
                 <td class="salesUnit" th:text="*{salesUnit}">取り扱い単位</td>
                 <td class="price" th:text="*{price}">値段</td>
@@ -55,7 +60,7 @@
     <!-- TODO デフォルト、選択していませんの表示 -->
     <h2>選択した食材</h2>
     <form action="" th:action="@{confirm}" method="post">
-        <table id="foodList">
+        <table id="selectedList">
             <tr>
                 <th>番号</th>
                 <th>食材名</th>
@@ -92,103 +97,6 @@
     </form>
 
     <a href="service.html" th:href="@{cancel}">戻る</a></li>
-
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script type="text/javascript">
-        // <!--
-        $(function () {
-            $(".foodListItem").click(function () {
-                let id;
-                id = $(this).data("id");
-
-                if (!($("#selectedItem" + id).length)) {
-                    let name;
-                    let salesUnit;
-                    let price;
-
-                    name = $(".foodListItem[data-id=" + id + "]").children(".name").text();
-                    name = $(".foodListItem[data-id=" + id + "]").children(".name").text();
-                    salesUnit = $(".foodListItem[data-id=" + id + "]").children(".salesUnit").text();
-                    price = $(".foodListItem[data-id=" + id + "]").children(".price").text();
-
-                    $("#foodList").append(
-                        "\<tr class=\"selectedItem\" id=\"selectedItem" + id + "\"\>" +
-                        "\<td\>" +
-                        id +
-                        "<input type=\"hidden\" name=\"id\" value=\"" + id + "\">" +
-                        "\<\/td\>" +
-                        "\<td\>" +
-                        name +
-                        "<input type=\"hidden\" name=\"name\" value=\"" + name + "\">" +
-                        "\<\/td\>" +
-                        "\<td\>" +
-                        salesUnit +
-                        "<input type=\"hidden\" name=\"salesUnit\" value=\"" + salesUnit + "\">" +
-                        "\<\/td\>" +
-                        "\<td\>" +
-                        price +
-                        "<input type=\"hidden\" name=\"price\" value=\"" + price + "\">" +
-                        "\<\/td\>" +
-                        "\<td\>" +
-                        "\<select name=\"numPurchase\" id=\"numPurchases" + id + "\" onchange=\"calcTotal(" + price + "," + id + ")\" placeholder='個数'\>" +
-                        "\<option\>0\<\/option\>" +
-                        "\<option\>1\<\/option\>" +
-                        "\<option\>2\<\/option\>" +
-                        "\<option\>3\<\/option\>" +
-                        "\<option\>4\<\/option\>" +
-                        "\<option\>5\<\/option\>" +
-                        "\<option\>6\<\/option\>" +
-                        "\<option\>7\<\/option\>" +
-                        "\<option\>8\<\/option\>" +
-                        "\<option\>9\<\/option\>" +
-                        "\<option\>10\<\/option\>" +
-                        "\<option\>11\<\/option\>" +
-                        "\<option\>12\<\/option\>" +
-                        "\<option\>13\<\/option\>" +
-                        "\<option\>14\<\/option\>" +
-                        "\<option\>15\<\/option\>" +
-                        "\<\/select\>" +
-                        "\<\/td\>" +
-                        "\<td\>" +
-                        "<span id=\"total" + id + "\" class=\"total\" >0</span>" +
-                        "<input type=\"hidden\" name=\"total\" id=\"total_input" + id + "\" value=\"0\" \>" +
-                        "\<\/td\>" +
-                        "\<td\>\<button onclick=\"removeItem(this," + id + ")\" class=\"deleteButton\"\>削除する\<\/button\>\<\/td\>" +
-                        "\<\/tr\>");
-                }
-            });
-        });
-
-        function removeItem(button, id) {
-            let parent = button.parentNode.parentNode;
-            parent.remove();
-
-            calcGrandTotal();
-        }
-
-        function calcTotal(price, id) {
-            let amount = $("#numPurchases" + id).val();
-            let total = Math.ceil(price * amount);
-
-            $("#total" + id).text(total);
-            $("#total_input" + id).attr('value', total);
-
-            calcGrandTotal();
-        }
-
-        function calcGrandTotal() {
-            let grandTotal = 0;
-            $(".total").each(function (i, element) {
-                let text = Number($(element).text());
-                grandTotal += text;
-            });
-            grandTotal = Math.round(grandTotal * 1.08);
-            $("#grandTotal").text(grandTotal);
-            $("#grandTotal_input").attr("value", grandTotal);
-        }
-    //-->
-
-    </script>
 </body>
 
 </html>
