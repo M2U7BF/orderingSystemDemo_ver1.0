@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 import com.example.ordering.entity.Fruits;
 import com.example.ordering.entity.User;
@@ -26,12 +27,18 @@ public class homeController {
 	}
 	
 	@GetMapping("service")
-	public String serviceView() {
+	public String service() {
 		return "service";
 	}
 	
+//	@GetMapping("choice")
+//	public String initialize(SessionStatus sessionStatus) {
+//		sessionStatus.setComplete();
+//		return "redirect:choice?initialized";
+//	}
+	
 	@GetMapping("choice")
-	public String choiceView(@ModelAttribute(value = "itemData")Form f, Model model) {
+	public String choice(@ModelAttribute(value = "itemData")Form f, Model model) {
 		Vegetables veg1 = new Vegetables(11, "芽キャベツ1", "1kg", 700);
 		Vegetables veg2 = new Vegetables(12, "芽キャベツ2", "1束", 80);
 		Vegetables veg3 = new Vegetables(13, "芽キャベツ3", "1個", 30);
@@ -91,14 +98,26 @@ public class homeController {
 	}
 	
 	@PostMapping("confirm")
-	public String confirmView(@ModelAttribute(value = "itemData")Form f, Model model) {
+	public String confirm(@ModelAttribute(value = "itemData")Form f, Model model) {
 		model.addAttribute(f);
 		return "confirm";
 	}
 	
+	@GetMapping("cancel")
+	public String cancel(SessionStatus sessionStatus) {
+		sessionStatus.setComplete();
+		return "redirect:service";
+	}
+	
 	@PostMapping("confirmed")
-	public String confirmedView(@ModelAttribute(value = "itemData")Form f, Model model) {
+	public String confirmed(@ModelAttribute(value = "itemData")Form f, Model model) {
 		model.addAttribute(f);
+		return "redirect:confirmed?complete";
+	}
+	
+	@GetMapping("confirmed{complete}")
+	public String confirmedComplete(SessionStatus sessionStatus) {
+		sessionStatus.setComplete();
 		return "confirmed";
 	}
 }
