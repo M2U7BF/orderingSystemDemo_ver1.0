@@ -1,7 +1,7 @@
 /**
  * 
  */
-
+	
  function showSelectedItem(tr){
     let id;
     id = $(tr).data("id");
@@ -34,7 +34,7 @@
             "<input type=\"hidden\" name=\"price\" value=\"" + price + "\">" +
             "\<\/td\>" +
             "\<td\>" +
-            "\<select name=\"numPurchase\" id=\"numPurchases" + id + "\" onchange=\"calcTotal(" + price + "," + id + ")\" placeholder='個数'\>" +
+            "\<select name=\"numPurchase\" id=\"numPurchases" + id + "\" class=\"numPurchase\" onchange=\"calcTotal(" + price + "," + id + ")\" placeholder='個数'\>" +
             "\<option\>0\<\/option\>" +
             "\<option\>1\<\/option\>" +
             "\<option\>2\<\/option\>" +
