@@ -1,1 +1,5 @@
+html{
+	margin-left:30%;
+}
+
 .foodListItem:hover{background-color: yellow;}
