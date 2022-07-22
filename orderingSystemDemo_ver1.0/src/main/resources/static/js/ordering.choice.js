@@ -35,7 +35,6 @@
             "\<\/td\>" +
             "\<td\>" +
             "\<select name=\"numPurchase\" id=\"numPurchases" + id + "\" class=\"numPurchase\" onchange=\"calcTotal(" + price + "," + id + ")\" placeholder='個数'\>" +
-            "\<option\>0\<\/option\>" +
             "\<option\>1\<\/option\>" +
             "\<option\>2\<\/option\>" +
             "\<option\>3\<\/option\>" +
@@ -59,6 +58,8 @@
             "\<\/td\>" +
             "\<td\>\<button onclick=\"removeItem(this," + id + ")\" class=\"deleteButton\"\>削除する\<\/button\>\<\/td\>" +
             "\<\/tr\>");
+            
+            calcTotal(price,id);
     }
 
  }
