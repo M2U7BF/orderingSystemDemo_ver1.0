@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+    <title>ログイン</title>
+</head>
+<body>
+    <form th:action="@{/auth/login}" method="post">
+        <input type="text" placeholder="ID">
+        <input type="text" placeholder="パスワード">
+        <input type="text" placeholder="パスワード(再入力)">
+        <input type="submit" value="ログイン">
+    </form>
+    <a href="auth/passwordReset.html" th:href="@{/auth/passwordReset}">パスワードを忘れた</a>
+    <a href="auth/createAccount.html" th:href="@{/auth/createAccount}">新規アカウント作成</a>
+</body>
+</html>

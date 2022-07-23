@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+	<meta charset="UTF-8">
+    <title>新規アカウントの作成</title>
+<head>
+
+</head>
+<body>
+    <form th:action="@{/auth/createAccount}" method="post">
+        <input type="text" placeholder="ID">
+        <input type="text" placeholder="パスワード">
+        <input type="text" placeholder="パスワード(再入力)">
+        <input type="submit" value="作成">
+    </form>
+</body>
+</html>
