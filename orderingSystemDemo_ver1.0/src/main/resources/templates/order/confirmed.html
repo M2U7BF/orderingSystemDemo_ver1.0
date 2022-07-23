@@ -19,16 +19,16 @@
                 <th>購入個数</th>
                 <th>購入金額(円)</th>
             </tr>
-            <tr th:each="name ,iter : ${itemData.name}">
-                <td th:text="${itemData.name[iter.index]}">商品名</td>
-                <td th:text="${itemData.salesUnit[iter.index]}">単位</td>
-                <td th:text="${itemData.price[iter.index]}">値段</td>
-                <td th:text="${itemData.numPurchase[iter.index]}">購入数</td>
-                <td th:text="${itemData.total[iter.index]}">購入金額</td>
+            <tr th:each="name ,iter : ${modelMap.orderForm.name}">
+                <td th:text="${modelMap.orderForm.name[iter.index]}">商品名</td>
+                <td th:text="${modelMap.orderForm.salesUnit[iter.index]}">単位</td>
+                <td th:text="${modelMap.orderForm.price[iter.index]}">値段</td>
+                <td th:text="${modelMap.orderForm.numPurchase[iter.index]}">購入数</td>
+                <td th:text="${modelMap.orderForm.total[iter.index]}">購入金額</td>
             </tr>
         </table>
         <div>
-            <p>合計<span th:text="${itemData.grandTotal}">0</span>円(税込み)</p>
+            <p>合計<span th:text="${modelMap.orderForm.grandTotal}">0</span>円(税込み)</p>
         </div>
     </div>
     

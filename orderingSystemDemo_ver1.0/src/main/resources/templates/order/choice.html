@@ -69,28 +69,32 @@
                 <th>購入個数</th>
                 <th>購入金額(円)(税抜)</th>
             </tr>
-            <th:block th:each="price ,iter : ${itemData.price}">
-                <tr class="selectedItem" th:id="|selectedItem${itemData.id[iter.index]}|">
-                    <td th:text="${itemData.id[iter.index]}">id</td>
-                    <td th:text="${itemData.name[iter.index]}">name</td>
-                    <td th:text="${itemData.salesUnit[iter.index]}">salesUnit</td>
-                    <td th:text="${itemData.price[iter.index]}">price</td>
+            <th:block th:each="price ,iter : ${orderForm.price}">
+                <tr class="selectedItem" th:id="|selectedItem${orderForm.id[iter.index]}|">
+                    <td th:text="${orderForm.id[iter.index]}">id</td>
+                    <td th:text="${orderForm.name[iter.index]}">name</td>
+                    <td th:text="${orderForm.salesUnit[iter.index]}">salesUnit</td>
+                    <td th:text="${orderForm.price[iter.index]}">price</td>
                     <td>
-                        <select name="numPurchase" th:id="|numPurchases${itemData.numPurchase[iter.index]}|" th:onchange="calcTotal([[${itemData.price[iter.index]}]],[[${itemData.numPurchase[iter.index]}]])" placeholder="個数">
-                            <option th:each="i: ${#numbers.sequence(0, 15)}" th:selected="${i} == ${itemData.numPurchase[iter.index]}"  th:text="${i}">0</option>
+                        <select name="numPurchase" th:id="|numPurchases${orderForm.numPurchase[iter.index]}|" th:onchange="calcTotal([[${orderForm.price[iter.index]}]],[[${orderForm.numPurchase[iter.index]}]])" placeholder="個数">
+                            <option th:each="i: ${#numbers.sequence(0, 15)}" th:selected="${i} == ${orderForm.numPurchase[iter.index]}"  th:text="${i}">0</option>
                         </select>
                     </td>
-                    <td><span th:text="${itemData.total[iter.index]}" th:id="|total${itemData.numPurchase[iter.index]}|" class="total">0</span></td>
-                    <td><button th:onclick="removeItem(this,[[${itemData.numPurchase[iter.index]}]])" class="deleteButton">削除する</button></td>
+                    <td><span th:text="${orderForm.total[iter.index]}" th:id="|total${orderForm.numPurchase[iter.index]}|" class="total">0</span></td>
+                    <td><button th:onclick="removeItem(this,[[${orderForm.numPurchase[iter.index]}]])" class="deleteButton">削除する</button></td>
             </tr>
+            <input type="hidden" field="id" name="id" th:value="${orderForm.id[iter.index]}">
+            <input type="hidden" field="name" name="name" th:value="${orderForm.name[iter.index]}">
+            <input type="hidden" field="salesUnit" name="salesUnit" th:value="${orderForm.salesUnit[iter.index]}">
+            <input type="hidden" field="price" name="price" th:value="${orderForm.price[iter.index]}">
+            <input type="hidden" field="numPurchase" name="numPurchase" th:value="${orderForm.numPurchase[iter.index]}">
+            <input type="hidden" field="total" name="total" th:value="${orderForm.total[iter.index]}">
+            <input type="hidden" field="grandTotal" name="grandTotal" th:value="${orderForm.grandTotal}">
             </th:block>
         </table>
         <h2>合計:
-            <span id="grandTotal" th:text="${itemData.grandTotal} == null ? 0 : ${itemData.grandTotal}">合計金額</span>円(税込み)
-            <!-- 最初だけ表示したい -->
-            <th:block th:if="${itemData.grandTotal} == null">
-                <input id="grandTotal_input" type="hidden" name="grandTotal" value="0">
-            </th:block>
+            <span id="grandTotal" th:text="${orderForm.grandTotal} == null ? 0 : ${orderForm.grandTotal}">合計金額</span>円(税込み)
+            <input id="grandTotal_input" type="hidden" name="grandTotal" value="0">
         </h2>
 
         <input id="submit" type="submit" value="確認画面に進む">

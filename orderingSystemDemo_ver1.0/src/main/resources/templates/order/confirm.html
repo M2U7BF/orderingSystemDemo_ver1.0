@@ -13,29 +13,47 @@
         <p>購入者 : <span>A店</span></p>
     </div>
     <form th:action="@{/order/confirmed}" method="post">
-    <table>
-        <tr>
-            <th>食材名</th>
-            <th>単位</th>
-            <th>値段(円)</th>
-            <th>購入個数</th>
-            <th>購入金額(円)</th>
-        </tr>
-        <tr th:each="name ,iter : ${itemData.name}">
-            <td th:text="${itemData.name[iter.index]}">商品名</td>
-            <td th:text="${itemData.salesUnit[iter.index]}">単位</td>
-            <td th:text="${itemData.price[iter.index]}">値段</td>
-            <td th:text="${itemData.numPurchase[iter.index]}">購入数</td>
-            <td th:text="${itemData.total[iter.index]}">購入金額</td>
-        </tr>
-    </table>
-    <div>
-        <p>合計<span th:text="${itemData.grandTotal}">0</span>円(税込み)</p>
-    </div>
+        <table>
+            <tr>
+                <th>食材名</th>
+                <th>単位</th>
+                <th>値段(円)</th>
+                <th>購入個数</th>
+                <th>購入金額(円)</th>
+            </tr>
+            <tr th:each="name ,iter : ${orderForm.name}">
+                <td th:text="${orderForm.name[iter.index]}">商品名</td>
+                <td th:text="${orderForm.salesUnit[iter.index]}">単位</td>
+                <td th:text="${orderForm.price[iter.index]}">値段</td>
+                <td th:text="${orderForm.numPurchase[iter.index]}">購入数</td>
+                <td th:text="${orderForm.total[iter.index]}">購入金額</td>
+                <input type="hidden" field="name" name="name" th:value="${orderForm.name[iter.index]}">
+                <input type="hidden" field="salesUnit" name="salesUnit" th:value="${orderForm.salesUnit[iter.index]}">
+                <input type="hidden" field="price" name="price" th:value="${orderForm.price[iter.index]}">
+                <input type="hidden" field="numPurchase" name="numPurchase"
+                    th:value="${orderForm.numPurchase[iter.index]}">
+                <input type="hidden" field="total" name="total" th:value="${orderForm.total[iter.index]}">
+            </tr>
+        </table>
+        <div>
+            <p>合計<span th:text="${orderForm.grandTotal}">0</span>円(税込み)</p>
+            <input type="hidden" field="grandTotal" name="grandTotal" th:value="${orderForm.grandTotal}">
+        </div>
 
-    <input type="submit" value="購入を確定する">
-</form>
-    <a id="correct" href="choice.html" th:href="@{/order/choice}">購入情報を修正する</a>
+        <input id="confirmed" type="submit" value="購入を確定する">
+    </form>
+    <form th:action="@{/order/choice?correct}" method="post">
+        <tr th:each="name ,iter : ${orderForm.name}">
+            <input type="hidden" field="id" name="id" th:value="${orderForm.id[iter.index]}">
+            <input type="hidden" field="name" name="name" th:value="${orderForm.name[iter.index]}">
+            <input type="hidden" field="salesUnit" name="salesUnit" th:value="${orderForm.salesUnit[iter.index]}">
+            <input type="hidden" field="price" name="price" th:value="${orderForm.price[iter.index]}">
+            <input type="hidden" field="numPurchase" name="numPurchase" th:value="${orderForm.numPurchase[iter.index]}">
+            <input type="hidden" field="total" name="total" th:value="${orderForm.total[iter.index]}">
+            <input type="hidden" field="grandTotal" name="grandTotal" th:value="${orderForm.grandTotal}">
+        <tr>
+        <input type="submit" id="correct" href="choice.html" th:href="@{/order/choice}" value="購入情報を修正する">
+    </form>
     <a href="service.html" th:href="@{/order/cancel}">購入を中止する</a></li>
 </body>
 
