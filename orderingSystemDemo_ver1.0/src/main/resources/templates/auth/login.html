@@ -6,11 +6,15 @@
     <title>ログイン</title>
 </head>
 <body>
-    <form th:action="@{/auth/login}" method="post">
-        <input type="text" placeholder="ID">
-        <input type="text" placeholder="パスワード">
-        <input type="text" placeholder="パスワード(再入力)">
+    <form th:action="@{/auth/login}" method="post" th:Object="${accountForm}">
+        <input type="text" th:field="*{accountId}" placeholder="ID">
+        <p th:if="${#fields.hasErrors('accountId')}" th:errors="*{accountId}"></p>
+        <input type="text" th:field="*{password}" placeholder="パスワード">
+        <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+        <input type="text" th:field="*{retypedPassword}" placeholder="パスワード(再入力)">
+        <p th:if="${#fields.hasErrors('retypedPassword')}" th:errors="*{retypedPassword}"></p>
         <input type="submit" value="ログイン">
+        <p th:if="${#fields.hasErrors('passwordValid')}" th:errors="*{passwordValid}"></p>
     </form>
     <a href="auth/passwordReset.html" th:href="@{/auth/passwordReset}">パスワードを忘れた</a>
     <a href="auth/createAccount.html" th:href="@{/auth/createAccount}">新規アカウント作成</a>
