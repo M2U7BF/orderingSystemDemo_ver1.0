@@ -1,4 +1,4 @@
-package com.example.ordering.entity;
+package com.example.ordering.domain.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

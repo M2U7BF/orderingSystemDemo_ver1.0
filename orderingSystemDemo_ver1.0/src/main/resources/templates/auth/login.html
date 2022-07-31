@@ -16,6 +16,10 @@
         <input type="submit" value="ログイン">
         <p th:if="${#fields.hasErrors('passwordValid')}" th:errors="*{passwordValid}"></p>
     </form>
+    <select name="" id="">
+        <option value="">0000000000000000</option>
+        <option value="">0000000000000000</option>
+    </select>
     <a href="auth/passwordReset.html" th:href="@{/auth/passwordReset}">パスワードを忘れた</a>
     <a href="auth/createAccount.html" th:href="@{/auth/createAccount}">新規アカウント作成</a>
 </body>
